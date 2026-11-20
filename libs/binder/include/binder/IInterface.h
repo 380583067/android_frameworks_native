@@ -296,6 +296,15 @@ constexpr const char* const kManualInterfaces[] = {
 
 constexpr const char* const kDownstreamManualInterfaces[] = {
   // Add downstream interfaces here.
+  "android.hardware.ICamera",
+  "android.hardware.ICameraClient",
+  "android.hardware.camera2.ICameraDeviceCallbacks",
+  "android.hardware.camera2.ICameraDeviceUser",
+  "android.hardware.ICameraRecordingProxy",
+  "android.hardware.ICameraRecordingProxyListener",
+  "android.hardware.ICameraService",
+  "android.hardware.ICameraServiceListener",
+  "android.hardware.ICameraServiceProxy",
   nullptr,
 };
 

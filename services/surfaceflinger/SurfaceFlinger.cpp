@@ -457,6 +457,11 @@ SurfaceFlinger::SurfaceFlinger(Factory& factory) : SurfaceFlinger(factory, SkipI
     maxGraphicsWidth = std::max(max_graphics_width(0), 0);
     maxGraphicsHeight = std::max(max_graphics_height(0), 0);
 
+    // Tegra K1 legacy HWC blob double-unregisters cached layer handles during
+    // surface teardown races (SIGSEGV in NvGrUnregisterBuffer). Allow forcing
+    // client (GPU) composition from boot via property.
+    mDebugDisableHWC = property_get_bool("persist.sf.force_gpu_composition", false);
+
     mSupportsWideColor = has_wide_color_display(false);
     mDefaultCompositionDataspace =
             static_cast<ui::Dataspace>(default_composition_dataspace(Dataspace::V0_SRGB));

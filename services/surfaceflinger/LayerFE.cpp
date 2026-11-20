@@ -220,8 +220,17 @@ void LayerFE::prepareBufferStateClientComposition(
     const bool bufferCanBeUsedAsHwTexture =
             mSnapshot->externalTexture->getUsage() & GraphicBuffer::USAGE_HW_TEXTURE;
     if (blackOutLayer || !bufferCanBeUsedAsHwTexture) {
-        ALOGE_IF(!bufferCanBeUsedAsHwTexture, "%s is blacked out as buffer is not gpu readable",
-                 mSnapshot->name.c_str());
+        /* [mocha 2026-11-20] Print the real format/usage so it is possible to
+         * tell whether the allocation side missed a usage bit or the format
+         * itself is not accepted by the GPU. */
+        ALOGE_IF(!bufferCanBeUsedAsHwTexture,
+                 "%s is blacked out as buffer is not gpu readable "
+                 "(fmt=%u %dx%d usage=%#" PRIx64 ")",
+                 mSnapshot->name.c_str(),
+                 mSnapshot->externalTexture->getPixelFormat(),
+                 mSnapshot->externalTexture->getWidth(),
+                 mSnapshot->externalTexture->getHeight(),
+                 mSnapshot->externalTexture->getUsage());
         prepareClearClientComposition(layerSettings, true /* blackout */);
         return;
     }
